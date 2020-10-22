@@ -91,9 +91,9 @@ spec:
         app.kubernetes.io/component: platform
         app.kubernetes.io/env: test
     spec:
-      containers:
       imagePullSecrets:
       - name: gcr-json-key
+      containers:
       - image: gcr.io/camunda-cloud-240911/camunda-bpm-k8s-demo:latest
         livenessProbe:
           httpGet:
