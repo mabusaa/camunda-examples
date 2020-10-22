@@ -95,7 +95,7 @@ spec:
       imagePullSecrets:
       - name: gcr-json-key
       containers:
-      - image: gcr.io/camundacloud/camunda-demo:latest
+      - image: gcr.io/camundacloud/camunda-bpm-platform:7.10.0
         livenessProbe:
           httpGet:
             path: /camunda
