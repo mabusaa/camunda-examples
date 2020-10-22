@@ -55,6 +55,7 @@ metadata:
   labels:
     app.kubernetes.io/component: platform
     app.kubernetes.io/env: test
+    service.beta.kubernetes.io/azure-load-balancer-internal: 'true'
   name: camunda-bpm
   namespace: camunda-bpm-test
 spec:
@@ -127,19 +128,4 @@ spec:
           defaultMode: 484
           name: config-f876fcdt56
         name: config
----
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  labels:
-    app.kubernetes.io/component: platform
-    app.kubernetes.io/env: test
-  name: jmx
-  namespace: camunda-bpm-test
-spec:
-  endpoints:
-  - interval: 10s
-    port: metrics
-  selector:
-    matchLabels:
-      app.kubernetes.io/app: camunda-bpm
+
