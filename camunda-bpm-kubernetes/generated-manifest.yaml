@@ -92,6 +92,8 @@ spec:
         app.kubernetes.io/env: test
     spec:
       containers:
+      imagePullSecrets:
+      - name: gcr-json-key
       - image: gcr.io/camunda-cloud-240911/camunda-bpm-k8s-demo:latest
         livenessProbe:
           httpGet:
@@ -100,8 +102,6 @@ spec:
           initialDelaySeconds: 60
           periodSeconds: 15
         name: camunda-bpm
-        imagePullSecrets:
-        - name: gcr-json-key
         ports:
         - containerPort: 8080
           name: http
