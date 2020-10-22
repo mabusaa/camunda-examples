@@ -3,8 +3,8 @@ apiVersion: v1
 kind: Namespace
 metadata:
   labels:
-    app.kubernetes.io/env: demo
-  name: camunda-bpm-demo
+    app.kubernetes.io/env: test
+  name: camunda-bpm-test
 ---
 apiVersion: v1
 data:
@@ -45,18 +45,18 @@ kind: ConfigMap
 metadata:
   labels:
     app.kubernetes.io/component: platform
-    app.kubernetes.io/env: demo
+    app.kubernetes.io/env: test
   name: config-f876fcdt56
-  namespace: camunda-bpm-demo
+  namespace: camunda-bpm-test
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
     app.kubernetes.io/component: platform
-    app.kubernetes.io/env: demo
+    app.kubernetes.io/env: test
   name: camunda-bpm
-  namespace: camunda-bpm-demo
+  namespace: camunda-bpm-test
 spec:
   ports:
   - name: http
@@ -64,7 +64,7 @@ spec:
     targetPort: http
   selector:
     app.kubernetes.io/component: platform
-    app.kubernetes.io/env: demo
+    app.kubernetes.io/env: test
   type: ClusterIP
 ---
 apiVersion: apps/v1
@@ -72,14 +72,14 @@ kind: Deployment
 metadata:
   labels:
     app.kubernetes.io/component: platform
-    app.kubernetes.io/env: demo
+    app.kubernetes.io/env: test
   name: camunda-bpm
-  namespace: camunda-bpm-demo
+  namespace: camunda-bpm-test
 spec:
   selector:
     matchLabels:
       app.kubernetes.io/component: platform
-      app.kubernetes.io/env: demo
+      app.kubernetes.io/env: test
   strategy:
     rollingUpdate:
       maxUnavailable: 1
@@ -88,7 +88,7 @@ spec:
       labels:
         app.kubernetes.io/app: camunda-bpm
         app.kubernetes.io/component: platform
-        app.kubernetes.io/env: demo
+        app.kubernetes.io/env: test
     spec:
       containers:
       - image: gcr.io/camunda-cloud-240911/camunda-bpm-k8s-demo:latest
@@ -128,40 +128,14 @@ spec:
           name: config-f876fcdt56
         name: config
 ---
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  annotations:
-    certmanager.k8s.io/cluster-issuer: letsencrypt-prod-cluster
-    kubernetes.io/ingress.class: nginx
-    kubernetes.io/tls-acme: "true"
-  labels:
-    app.kubernetes.io/component: platform
-    app.kubernetes.io/env: demo
-  name: camunda-bpm
-  namespace: camunda-bpm-demo
-spec:
-  rules:
-  - host: camunda-bpm.example.com
-    http:
-      paths:
-      - backend:
-          serviceName: camunda-bpm
-          servicePort: http
-        path: /
-  tls:
-  - hosts:
-    - camunda-bpm.example.com
-    secretName: camunda-bpm.example.com-tls
----
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
     app.kubernetes.io/component: platform
-    app.kubernetes.io/env: demo
+    app.kubernetes.io/env: test
   name: jmx
-  namespace: camunda-bpm-demo
+  namespace: camunda-bpm-test
 spec:
   endpoints:
   - interval: 10s
