@@ -66,7 +66,7 @@ spec:
   selector:
     app.kubernetes.io/component: platform
     app.kubernetes.io/env: test
-  type: ClusterIP
+  type: LoadBalancer
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -100,6 +100,8 @@ spec:
           initialDelaySeconds: 60
           periodSeconds: 15
         name: camunda-bpm
+        imagePullSecrets:
+        - name: gcr-json-key
         ports:
         - containerPort: 8080
           name: http
